@@ -1,0 +1,54 @@
+// Este arquivo descreve a "planta" do banco de dados.
+// Cada "model" abaixo vira uma tabela no PostgreSQL.
+generator client {
+provider = "prisma-client-js"
+}
+datasource db {
+provider = "postgresql"
+}
+// Perfil do desenvolvedor
+model Profile {
+id Int @id @default(autoincrement())
+name String
+email String @unique
+bio String?
+avatarUrl String?
+createdAt DateTime @default(now())
+projects Project[] // 1 Profile tem N Projects
+@@map("profiles")
+}
+// Tecnologia (ex: Node.js, React, PostgreSQL...)
+model Technology {
+id String @id @default(uuid())
+name String @unique
+createdAt DateTime @default(now())
+projects Project[] // relação N:N com Project
+@@map("technologies")
+}
+// Projeto publicado por um desenvolvedor
+model Project {
+id String @id @default(uuid())
+title String
+description String
+repositoryUrl String
+demoUrl String?
+averageRating Float @default(0)
+ratingCount Int @default(0)
+upvotes Int @default(0)
+createdAt DateTime @default(now())
+profileId Int
+profile Profile @relation(fields: [profileId], references: [id])
+technologies Technology[] // N:N com Technology
+feedbacks Feedback[] // 1 Project tem N Feedbacks
+@@map("projects")
+}
+// Opinião deixada em um projeto
+model Feedback {
+id String @id @default(uuid())
+comment String
+rating Int
+createdAt DateTime @default(now())
+projectId String
+project Project @relation(fields: [projectId], references: [id])
+@@map("feedbacks")
+}
