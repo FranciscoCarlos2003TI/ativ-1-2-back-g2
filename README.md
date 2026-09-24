@@ -1,4 +1,4 @@
-# DevShowcase API 
+# DevShowcase API Atividade 1 e 2 Backend
 
 API REST para publicação de projetos de desenvolvedores, com feedbacks (nota 1-5 + comentário), curtidas (upvotes) e busca de projetos com filtro por tecnologia.
 
